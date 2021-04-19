@@ -1,37 +1,73 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {# Run `composer require symfony/webpack-encore-bundle`
+
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    {# Run `composer require symfony/webpack-encore-bundle`
            and uncomment the following Encore helpers to start using Symfony UX #}
-        {% block stylesheets %}
-            {#{{ encore_entry_link_tags('app') }}#}
-        {% endblock %}
+    {% block stylesheets %}
+    {{ encore_entry_link_tags('app') }}
+    {% endblock %}
 
-        {% block javascripts %}
-            {#{{ encore_entry_script_tags('app') }}#}
-        {% endblock %}
-    </head>
-    <body>
-        <div class="container">
+</head>
 
-            <header>
-                <nav>
-                    <a href="{{ path('homepage') }}">Accueil</a> - 
+<body>
 
-                    {# Menu quand l'utilisateur est "anonyme" #}
-                    <a href="{{ path('app_register') }}">Inscription</a> -
-                    <a href="{{ path('app_login') }}">Connexion</a>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
 
-                    {# Menu quand l'utilisateur est identifié #}
-                    <a href="#">Mon Profil</a> -
-                    <a href="#">Deconnexion</a>
+        <a class="navbar-brand" href="#">Navbar</a>
 
-                </nav>
-            </header>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-        {% block body %}{% endblock %}
+        <div class="collapse navbar-collapse" id="navbarNav">
+
+            <ul class="navbar-nav  mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('homepage') }}">Accueil</a>
+                </li>
+            </ul>
+
+            <ul class="navbar-nav ml-auto">
+
+            {# {% if app.user %} #}
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+
+                {# Authenticated users #}
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Mon profil</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Deconnexion</a>
+                </li>
+
+            {% else %}
+                    
+                {# Anonymous users #}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_register') }}">Inscription</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_login') }}">Connexion</a>
+                </li>
+
+            {% endif %}
+                
+            </ul>
+
         </div>
-    </body>
+    </nav>
+
+
+    {% block body %}{% endblock %}
+
+
+    {% block javascripts %}
+    {#{{ encore_entry_script_tags('app') }}#}
+    {% endblock %}
+</body>
+
 </html>
